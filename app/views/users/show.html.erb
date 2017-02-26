@@ -20,7 +20,7 @@
   <p> Favorite brewery: <%= @user.favorite_brewery.name %> </p>
   <p> Favorite style: <%= @user.favorite_style %> </p>
 
-  <p> average rating <%= @user.average_rating %></p>
+  <p> average rating <%= round(@user.average_rating) %></p>
 
   <h3>ratings</h3>
 
