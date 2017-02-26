@@ -61,6 +61,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def freeze
+    if not current_user.admin
+      redirect_to :back, notice:"Admin account required to freeze account!"
+      return
+    end
+    user = User.find(params[:id])
+    user.update_attribute :blocked, (not user.blocked)
+
+    new_status = user.blocked? ? "frozen" : "not frozen"
+
+    redirect_to :back, notice:"user frozen status changed to #{new_status}"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
