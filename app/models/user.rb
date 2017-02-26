@@ -51,4 +51,15 @@ class User < ActiveRecord::Base
   def is_member_of?(beer_club)
     beer_clubs.include? beer_club
   end  
+
+  def self.top(n)
+    sorted_by_rating_in_desc_order = User.all.sort_by{ |b| -(b.ratings.count||0) }
+    # palauta listalta parhaat n kappaletta
+    # miten? ks. http://www.ruby-doc.org/core-2.1.0/Array.html
+    sorted_by_rating_in_desc_order.take(3)
+  end
+
+  def to_s
+    self.username
+  end
 end
