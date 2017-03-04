@@ -2,7 +2,7 @@ class Rating < ActiveRecord::Base
   belongs_to :beer
   belongs_to :user
 
-  scope :recent, -> { where order(updated_at: :desc), limit(5) }
+  scope :recent, -> { where order(created_at: :desc).limit(5) }
 
   validates :score, numericality: { greater_than_or_equal_to: 1,
                                     less_than_or_equal_to: 50,
