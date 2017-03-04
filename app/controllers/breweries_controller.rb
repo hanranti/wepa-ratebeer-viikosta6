@@ -5,7 +5,7 @@ class BreweriesController < ApplicationController
   # GET /breweries
   # GET /breweries.json
   def index
-    @active_breweries = Brewery.active
+    @active_breweries = Brewery.active.order("name desc")
     @retired_breweries = Brewery.retired
 
     order = params[:order] || "name"
@@ -19,6 +19,16 @@ class BreweriesController < ApplicationController
       when 'name' then @retired_breweries.sort_by{ |b| b.name }
       when 'year' then @retired_breweries.sort_by{ |b| b.year }
     end
+
+    if order == session[:last_order] and session[:last_desc] == false and not params[:order].nil?
+      @active_breweries = @active_breweries.reverse!
+      @retired_breweries = @retired_breweries.reverse!
+      session[:last_desc] = true
+    else
+      session[:last_desc] = false
+    end
+
+    session[:last_order] = order
   end
 
   # GET /breweries/1
