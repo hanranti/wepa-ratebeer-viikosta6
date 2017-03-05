@@ -5,13 +5,6 @@ BREWERIES.show = function(){
 
     var table = $("#brewerytable");
 
-    table.append('<tr>'
-        +'<th><a href="#" id="name">Name</a></th>'
-        +'<th><a href="#" id="year">Year</a></th>'
-        +'<th><a href="#" id="beercount">BeerCount</a></th>'
-        +'<th><a href="#" id="active">Active</a></th>'
-        +'</tr>');
-
     $.each(BREWERIES.list, function (index, brewery) {
         table.append('<tr>'
             +'<td>'+brewery['name']+'</td>'
@@ -30,19 +23,34 @@ BREWERIES.sort_by_name = function(){
 
 BREWERIES.sort_by_year = function(){
     BREWERIES.list.sort( function(a,b){
-        return a.year.toUpperCase().localeCompare(b.year.toUpperCase());
+        if (a.year > b.year) {
+          return 1;
+        } else {
+          return -1;
+        }
+        //return a.year.localeCompare(b.year);
     });
 };
 
 BREWERIES.sort_by_beers_length = function(){
     BREWERIES.list.sort( function(a,b){
-        return a.abeers.length.localeCompare(b.beers.length);
+        if (a.beers.length > b.beers.length) {
+          return 1;
+        } else {
+          return -1;
+        }
+        //return a.beers.length.localeCompare(b.beers.length);
     });
 };
 
 BREWERIES.sort_by_active = function(){
     BREWERIES.list.sort( function(a,b){
-        return a.active.toUpperCase().localeCompare(b.active.toUpperCase());
+        if (a.active && !b.active) {
+          return 1;
+        } else {
+          return -1
+        }
+        //return a.active.localeCompare(b.active);
     });
 };
 

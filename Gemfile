@@ -47,6 +47,11 @@ group :test do
   gem 'capybara'
   gem 'launchy'
   gem 'webmock'
+
+  # js tests
+  gem 'selenium-webdriver', '2.53.4'
+  gem "chromedriver-helper"
+  gem 'database_cleaner'
 end
 
 gem 'simplecov', require: false
