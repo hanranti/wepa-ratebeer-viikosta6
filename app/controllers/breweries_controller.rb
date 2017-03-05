@@ -75,6 +75,9 @@ class BreweriesController < ApplicationController
     end
   end
 
+  def list
+  end
+
   # DELETE /breweries/1
   # DELETE /breweries/1.json
   def destroy
