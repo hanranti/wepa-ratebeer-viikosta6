@@ -52,6 +52,10 @@ class User < ActiveRecord::Base
     beer_clubs.include? beer_club
   end  
 
+  def is_confirmed_member_of?(beer_club)
+    Membership.where(user_id:id, beer_club:beer_club, confirmed:true).length > 0
+  end
+
   def self.top(n)
     sorted_by_rating_in_desc_order = User.all.sort_by{ |b| -(b.ratings.count||0) }
     # palauta listalta parhaat n kappaletta

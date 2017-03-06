@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   resources :styles
   resources :memberships
+  resources :memberships do
+    post 'toggle_confirmed', on: :member
+  end
   resources :beer_clubs
   resources :users
   resources :users do

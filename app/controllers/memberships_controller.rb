@@ -65,6 +65,15 @@ class MembershipsController < ApplicationController
     end
   end
 
+  def toggle_confirmed
+    membership = Membership.find(params[:id])
+    membership.update_attribute :confirmed, (not membership.confirmed) if Membership.confirmed.where(user:current_user, beer_club:membership.beer_club).length > 0
+
+    new_notice = membership.confirmed? ? "membership confirmed" : "membership unconfirmed"
+
+    redirect_to :back, notice:"#{new_notice}"
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_membership

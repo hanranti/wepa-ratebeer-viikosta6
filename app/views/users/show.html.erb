@@ -11,11 +11,22 @@
 
 <% if @user.beer_clubs.any? %>
 
-  <p>member of
-  <% @user.beer_clubs.each do |club| %>
-    <%= link_to club.name, club%>
-  <% end %>
-  </p>
+  <p>member of</p>
+    <ul>
+      <% @confirmed_memberships.each do |membership| %>
+        <li>
+          <%= link_to membership.beer_club.name, membership.beer_club%>
+        </li>
+      <% end %>
+    </ul>
+  <p>waiting for confirmation</p>
+  <ul>
+      <% @unconfirmed_memberships.each do |membership| %>
+        <li>
+          <%= link_to membership.beer_club.name, membership.beer_club%>
+        </li>
+      <% end %>
+    </ul>
 <% else %>
   <p>no beerclub memberships</p>
 <% end %>

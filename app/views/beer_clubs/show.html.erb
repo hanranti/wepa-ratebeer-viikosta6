@@ -8,11 +8,11 @@
   Founded: <%= @beer_club.founded %>
 </p>
 
-<% if @beer_club.members.any? %>
+<% if @confirmed_memberships.any? %>
   <ul>
-    <% @beer_club.members.each do |member| %>
+    <% @confirmed_memberships.each do |membership| %>
       <li>
-        <%= link_to member.username, member %>
+        <%= link_to membership.user, membership.user %>
       </li>      
     <% end %>
   </ul>
@@ -26,12 +26,26 @@
       <%= f.hidden_field :beer_club_id %>
       <%= f.submit value: "end the membership" %>
     <% end %>     
+
+    <% if current_user.is_member_of?(@beer_club) && current_user.is_confirmed_member_of?(@beer_club) %>
+      <h3>Unconfirmed memberships</h3>
+      <ul>
+        <% @unconfirmed_memberships.each do |m| %>
+          <li>
+          <%= m.user %> <%= link_to 'confirm', toggle_confirmed_membership_path(m.id), method: :post, class: "btn btn-primary"%>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+
   <% else %>
     <%= form_for(@membership) do |f| %>
       <%= f.hidden_field :beer_club_id %>
       <%= f.submit value:"join the club" %>
     <% end %>
   <% end %>
+
+  <br>
 
   <%= link_to 'Edit', edit_beer_club_path(@beer_club) %>
   <%= link_to 'Destroy', @beer_club, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %>
