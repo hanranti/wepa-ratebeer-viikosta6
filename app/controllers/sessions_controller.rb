@@ -23,6 +23,7 @@ class SessionsController < ApplicationController
   end
 
   def create_oauth
-    byebug
+    current_user.update_attribute :github_username, (env["omniauth.auth"].info.nickname)
+    redirect_to :back, notice: "User connected to github account"
   end
 end

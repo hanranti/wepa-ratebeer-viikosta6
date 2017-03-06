@@ -11,9 +11,10 @@ class User < ActiveRecord::Base
 
   validates :username, uniqueness: true,
                        length: { minimum: 3, maximum: 30 }
-  validates :password, length: { minimum: 4 }   
-  validates :password, format: { with: /([A-Z].*\d)|(\d.*[A-Z].*)/,
-              message: "should contain one number and one capital letter" }   
+  #validates :password, length: { minimum: 4 }   
+  #validates :password, format: { with: /([A-Z].*\d)|(\d.*[A-Z].*)/,message: "should contain one number and one capital letter" }   
+
+  validate :password_or_github
 
   def favorite_beer
     return nil if ratings.empty?   
@@ -66,4 +67,17 @@ class User < ActiveRecord::Base
   def to_s
     self.username
   end
+
+  private
+
+    def password_or_github
+      if github_username.nil?
+        if password.length < 4
+          errors.add(:message, "assword should be longer than 3 letters")
+        end
+        if not password.match(/([A-Z].*\d)|(\d.*[A-Z].*)/)
+          errors.add(:message, "should contain one number and one capital letter")
+        end
+      end
+    end
 end
