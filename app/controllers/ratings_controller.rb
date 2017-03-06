@@ -1,5 +1,11 @@
 class RatingsController < ApplicationController
+  before_action :skip_if_cached, only:[:index]
+
   def index
+    #Kun sivulle tullaan, ratinglist asetetaan cacheen.
+    #RatingJob.perform poistaa tämän cachesta 10 min
+    #päästä
+    RatingJob.perform_async
     @breweries = Brewery.top(3)
     @beers = Beer.top(3)
     @users = User.top(3)
@@ -30,4 +36,11 @@ class RatingsController < ApplicationController
     rating.delete if current_user == rating.user
     redirect_to :back
   end  
+
+  private
+
+    def skip_if_cached
+      return render :index if request.format.html? and fragment_exist?( "ratinglist"  )
+    end
+
 end
