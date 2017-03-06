@@ -38,7 +38,7 @@ class BeersController < ApplicationController
   # POST /beers
   # POST /beers.json
   def create
-    expire_fragment('beerlist')
+    expire_beerlists
     @beer = Beer.new(beer_params)
 
     respond_to do |format|
@@ -55,7 +55,7 @@ class BeersController < ApplicationController
   # PATCH/PUT /beers/1
   # PATCH/PUT /beers/1.json
   def update
-    expire_fragment('beerlist')
+    expire_beerlists
     respond_to do |format|
       if @beer.update(beer_params)
         format.html { redirect_to @beer, notice: 'Beer was successfully updated.' }
@@ -70,7 +70,7 @@ class BeersController < ApplicationController
   # DELETE /beers/1
   # DELETE /beers/1.json
   def destroy
-    expire_fragment('beerlist')
+    expire_beerlists
     if current_user.admin
       @beer.destroy
     else
@@ -102,5 +102,11 @@ class BeersController < ApplicationController
     def skip_if_cached
       @order = params[:order] || 'name'
       return render :index if request.format.html? and fragment_exist?( "beerlist-#{@order}"  )
+    end
+
+    def expire_beerlists
+      expire_fragment('beerlist-name')
+      expire_fragment('beerlist-style')
+      expire_fragment('beerlist-brewery')
     end
 end
