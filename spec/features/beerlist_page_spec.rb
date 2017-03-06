@@ -39,7 +39,6 @@ describe "Beerlist page" do
   it "shows one known beer", js:true do
     visit beerlist_path
     find('table').find('tr:nth-child(1)')
-    save_and_open_page
     expect(page).to have_content "Nikolai"
   end
 
@@ -48,5 +47,21 @@ describe "Beerlist page" do
     expect(find('table').find('tr:nth-child(2)')).to have_content("Fastenbier")
     expect(find('table').find('tr:nth-child(3)')).to have_content("Lechte Weisse")
     expect(find('table').find('tr:nth-child(4)')).to have_content("Nikolai")
+  end
+
+  it "orders by style when style is clicked", js:true do
+    visit beerlist_path
+    click_link 'Style'
+    expect(find('table').find('tr:nth-child(2)')).to have_content("Nikolai")
+    expect(find('table').find('tr:nth-child(3)')).to have_content("Fastenbier")
+    expect(find('table').find('tr:nth-child(4)')).to have_content("Lechte Weisse")
+  end
+
+  it "orders by brewery when brewery is clicked", js:true do
+    visit beerlist_path
+    click_link 'Brewery'
+    expect(find('table').find('tr:nth-child(2)')).to have_content("Lechte Weisse")
+    expect(find('table').find('tr:nth-child(3)')).to have_content("Nikolai")
+    expect(find('table').find('tr:nth-child(4)')).to have_content("Fastenbier")
   end
 end
