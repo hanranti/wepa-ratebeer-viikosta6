@@ -73,3 +73,5 @@ end
 
 # jquery
 gem 'jquery-turbolinks'
+
+gem 'rack-mini-profiler'
