@@ -54,7 +54,7 @@
 <% end %>
 
 
-<% if @user==current_user%>
+<% if @user==current_user %>
   <%= link_to 'change password', edit_user_path(@user), class:"btn btn-warning" %> <br>
   <%= link_to 'destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger"  %> 
 <% end %>
@@ -65,4 +65,10 @@
   <% else %>
     <%= link_to 'freeze account', freeze_user_path(@user.id), method: :post, class: "btn btn-danger" %>
   <% end %>
+<% end %>
+
+<br>
+
+<% if @user==current_user %>
+  <%= link_to 'Github', root_url + 'auth/github', method: :post, class: "btn btn-info"%>
 <% end %>
